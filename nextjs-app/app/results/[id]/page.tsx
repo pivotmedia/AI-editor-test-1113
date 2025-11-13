@@ -99,7 +99,7 @@ export default function ResultsPage({ params }: { params: Promise<{ id: string }
       {result.story_count === 0 ? (
         <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-6">
           <p className="text-yellow-800">
-            <strong>No stories found.</strong> The homepage structure may have changed or Firecrawl couldn't parse the content.
+            <strong>No stories found.</strong> The homepage structure may have changed or Firecrawl couldn&apos;t parse the content.
           </p>
         </div>
       ) : (
@@ -137,7 +137,7 @@ export default function ResultsPage({ params }: { params: Promise<{ id: string }
       <div className="bg-gray-100 rounded-lg p-6 mt-6">
         <h3 className="font-semibold text-gray-900 mb-2">💡 Next Steps</h3>
         <ul className="list-disc list-inside space-y-1 text-sm text-gray-700">
-          <li>Click "View Article" to extract complete article text</li>
+          <li>Click &quot;View Article&quot; to extract complete article text</li>
           <li>Try different news sources to test extraction quality</li>
           <li>Phase 2 will add AI relevance filtering</li>
         </ul>

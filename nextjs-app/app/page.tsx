@@ -149,7 +149,7 @@ export default function Home() {
         </h2>
         <ol className="list-decimal list-inside space-y-2 text-sm text-gray-700">
           <li>Select a news source from the dropdown</li>
-          <li>Click "Start Scraping" to crawl the homepage</li>
+          <li>Click &quot;Start Scraping&quot; to crawl the homepage</li>
           <li>Firecrawl extracts article links and metadata</li>
           <li>View results with headlines and URLs</li>
           <li>Click on any article to extract full content</li>

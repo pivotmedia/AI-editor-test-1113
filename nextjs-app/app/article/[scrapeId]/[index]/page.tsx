@@ -167,7 +167,7 @@ export default function ArticlePage({ params }: { params: Promise<{ scrapeId: st
           </div>
         </div>
         <div className="border-t border-gray-200 p-4 text-xs text-gray-500">
-          ℹ️ Content extracted using Firecrawl's mainContent mode. Scroll to read the full article.
+          ℹ️ Content extracted using Firecrawl&apos;s mainContent mode. Scroll to read the full article.
         </div>
       </div>
 
