@@ -1,0 +1,153 @@
+{% extends "base.html" %}
+
+{% block title %}AI Editor - Test Scraper{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-lg-8 mx-auto">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="mb-0">
+                    <i class="bi bi-play-circle"></i> Run Homepage Scrape
+                </h4>
+            </div>
+            <div class="card-body">
+                <p class="text-muted mb-4">
+                    Select a news source to scrape its homepage and extract article links.
+                    This is Phase 1 testing - full pipeline coming soon!
+                </p>
+
+                <form method="POST" action="/scrape" id="scrapeForm">
+                    <div class="mb-4">
+                        <label for="source" class="form-label fw-bold">Select News Source:</label>
+                        <select class="form-select form-select-lg" name="source" id="source" required>
+                            <option value="" selected disabled>Choose a source...</option>
+                            {% for source in sources %}
+                                {% if source.enabled %}
+                                <option value="{{ source.name }}"
+                                        data-url="{{ source.homepage_url }}"
+                                        data-category="{{ source.category }}">
+                                    {{ source.name }}
+                                    <span class="text-muted">({{ source.category }})</span>
+                                    {% if source.priority == 1 %}⭐{% endif %}
+                                </option>
+                                {% endif %}
+                            {% endfor %}
+                        </select>
+                        <div class="form-text" id="sourceInfo">
+                            <i class="bi bi-info-circle"></i>
+                            {{ sources|length }} sources configured
+                            <span class="mx-2">|</span>
+                            ⭐ = High priority source
+                        </div>
+                    </div>
+
+                    <div class="mb-4" id="selectedSourceInfo" style="display: none;">
+                        <div class="alert alert-info">
+                            <strong>Selected:</strong> <span id="selectedName"></span><br>
+                            <strong>URL:</strong> <a href="#" id="selectedUrl" target="_blank"></a><br>
+                            <strong>Category:</strong> <span id="selectedCategory"></span>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary btn-lg w-100" id="scrapeBtn">
+                        <i class="bi bi-cloud-download"></i> Start Scraping
+                    </button>
+                </form>
+
+                <div class="spinner-container">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                    <p class="mt-3 text-muted">
+                        Scraping in progress... This may take 10-30 seconds.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">
+                    <i class="bi bi-list-check"></i> Available Sources
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    {% set categories = {} %}
+                    {% for source in sources %}
+                        {% if source.enabled %}
+                            {% set _ = categories.update({source.category: categories.get(source.category, []) + [source]}) %}
+                        {% endif %}
+                    {% endfor %}
+
+                    {% for category, cat_sources in categories.items() %}
+                    <div class="col-md-6 mb-3">
+                        <h6 class="text-uppercase text-muted small fw-bold">{{ category }}</h6>
+                        <ul class="list-unstyled">
+                            {% for source in cat_sources %}
+                            <li class="mb-2">
+                                <i class="bi bi-check-circle-fill text-success"></i>
+                                {{ source.name }}
+                                {% if source.priority == 1 %}
+                                    <span class="badge bg-primary badge-source">High Priority</span>
+                                {% endif %}
+                                {% if source.notes %}
+                                    <br>
+                                    <small class="text-muted ms-4">{{ source.notes }}</small>
+                                {% endif %}
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        <div class="card bg-light">
+            <div class="card-body">
+                <h5 class="card-title">
+                    <i class="bi bi-info-circle"></i> How It Works
+                </h5>
+                <ol class="mb-0">
+                    <li>Select a news source from the dropdown</li>
+                    <li>Click "Start Scraping" to crawl the homepage</li>
+                    <li>Firecrawl extracts article links and metadata</li>
+                    <li>View results with headlines and URLs</li>
+                    <li>Click on any article to extract full content</li>
+                </ol>
+                <hr>
+                <p class="text-muted mb-0">
+                    <strong>Phase 1 Status:</strong> Basic scraping infrastructure complete.
+                    AI filtering, ranking, and summarization coming in future phases.
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Show source info when selected
+    document.getElementById('source').addEventListener('change', function() {
+        const selected = this.options[this.selectedIndex];
+        if (selected.value) {
+            document.getElementById('selectedName').textContent = selected.value;
+            document.getElementById('selectedUrl').textContent = selected.dataset.url;
+            document.getElementById('selectedUrl').href = selected.dataset.url;
+            document.getElementById('selectedCategory').textContent = selected.dataset.category;
+            document.getElementById('selectedSourceInfo').style.display = 'block';
+        } else {
+            document.getElementById('selectedSourceInfo').style.display = 'none';
+        }
+    });
+
+    // Show loading spinner on submit
+    document.getElementById('scrapeForm').addEventListener('submit', function() {
+        document.querySelector('.card-body').classList.add('loading');
+        document.getElementById('scrapeBtn').disabled = true;
+    });
+</script>
+{% endblock %}

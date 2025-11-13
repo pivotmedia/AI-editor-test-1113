@@ -1,0 +1,120 @@
+{% extends "base.html" %}
+
+{% block title %}Scrape Results - {{ result.source }}{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-lg-10 mx-auto">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2>
+                <i class="bi bi-collection"></i> Scrape Results
+            </h2>
+            <a href="/" class="btn btn-outline-primary">
+                <i class="bi bi-arrow-left"></i> New Scrape
+            </a>
+        </div>
+
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <div class="row align-items-center">
+                    <div class="col-md-8">
+                        <h4 class="mb-0">
+                            <i class="bi bi-newspaper"></i> {{ result.source }}
+                        </h4>
+                    </div>
+                    <div class="col-md-4 text-end">
+                        <span class="badge bg-light text-dark">
+                            {{ result.story_count }} stories found
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <dl class="row mb-0">
+                    <dt class="col-sm-3">Source URL:</dt>
+                    <dd class="col-sm-9">
+                        <a href="{{ result.url }}" target="_blank">
+                            {{ result.url }}
+                            <i class="bi bi-box-arrow-up-right small"></i>
+                        </a>
+                    </dd>
+
+                    <dt class="col-sm-3">Scraped At:</dt>
+                    <dd class="col-sm-9">{{ result.scraped_at }}</dd>
+
+                    <dt class="col-sm-3">Scrape ID:</dt>
+                    <dd class="col-sm-9">
+                        <code>{{ scrape_id }}</code>
+                    </dd>
+                </dl>
+            </div>
+        </div>
+
+        {% if result.story_count == 0 %}
+        <div class="alert alert-warning">
+            <i class="bi bi-exclamation-triangle"></i>
+            <strong>No stories found.</strong>
+            This could mean the homepage structure has changed or Firecrawl couldn't parse the content.
+        </div>
+        {% else %}
+        <h4 class="mt-4 mb-3">
+            <i class="bi bi-list-ul"></i> Extracted Stories
+        </h4>
+
+        <div class="row">
+            {% for story in result.stories %}
+            <div class="col-12 mb-3">
+                <div class="card story-card">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div class="flex-grow-1">
+                                <h5 class="card-title">
+                                    {% if story.headline %}
+                                        {{ story.headline }}
+                                    {% else %}
+                                        <em class="text-muted">Article {{ loop.index }}</em>
+                                    {% endif %}
+                                </h5>
+                                <p class="card-text small text-muted mb-2">
+                                    <i class="bi bi-link-45deg"></i>
+                                    <a href="{{ story.url }}" target="_blank" class="text-decoration-none">
+                                        {{ story.url[:80] }}{% if story.url|length > 80 %}...{% endif %}
+                                    </a>
+                                </p>
+                                <p class="card-text small text-muted mb-0">
+                                    <i class="bi bi-clock"></i> {{ story.scraped_at }}
+                                </p>
+                            </div>
+                            <div class="ms-3">
+                                <a href="/article/{{ scrape_id }}/{{ loop.index0 }}"
+                                   class="btn btn-outline-primary btn-sm">
+                                    <i class="bi bi-file-text"></i> View Full Article
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <div class="card bg-light mt-4">
+            <div class="card-body">
+                <h6 class="card-title">
+                    <i class="bi bi-lightbulb"></i> Next Steps
+                </h6>
+                <p class="mb-2">
+                    <strong>What to do now:</strong>
+                </p>
+                <ul class="mb-0">
+                    <li>Click "View Full Article" to extract the complete article text</li>
+                    <li>Try different news sources to test Firecrawl's extraction</li>
+                    <li>Check the output quality and headline extraction</li>
+                    <li>Phase 2 will add AI relevance filtering to these stories</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

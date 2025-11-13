@@ -17,6 +17,10 @@ python-dateutil==2.9.0
 # Logging
 structlog==24.4.0
 
+# Web UI
+Flask==3.0.3
+Jinja2==3.1.4
+
 # Scheduling (for later phases)
 APScheduler==3.10.4
 

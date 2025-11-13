@@ -1,0 +1,145 @@
+{% extends "base.html" %}
+
+{% block title %}Article - {{ story.source }}{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-lg-10 mx-auto">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2>
+                <i class="bi bi-file-text"></i> Full Article
+            </h2>
+            <a href="/results/{{ scrape_id }}" class="btn btn-outline-primary">
+                <i class="bi bi-arrow-left"></i> Back to Results
+            </a>
+        </div>
+
+        {% if article %}
+            {% if article.error %}
+            <div class="alert alert-danger">
+                <h5><i class="bi bi-exclamation-triangle"></i> Extraction Failed</h5>
+                <p class="mb-0">{{ article.error }}</p>
+            </div>
+            {% else %}
+            <div class="card mb-4">
+                <div class="card-header bg-success text-white">
+                    <h4 class="mb-0">
+                        <i class="bi bi-check-circle"></i> Successfully Extracted
+                    </h4>
+                </div>
+                <div class="card-body">
+                    <h3 class="mb-3">{{ article.title }}</h3>
+
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <dl class="row mb-0">
+                                <dt class="col-sm-4">Source:</dt>
+                                <dd class="col-sm-8">
+                                    <span class="badge bg-primary">{{ story.source }}</span>
+                                </dd>
+
+                                <dt class="col-sm-4">Author:</dt>
+                                <dd class="col-sm-8">{{ article.author or 'N/A' }}</dd>
+
+                                <dt class="col-sm-4">Word Count:</dt>
+                                <dd class="col-sm-8">
+                                    <strong>{{ article.word_count }}</strong> words
+                                </dd>
+                            </dl>
+                        </div>
+                        <div class="col-md-6">
+                            <dl class="row mb-0">
+                                <dt class="col-sm-4">Published:</dt>
+                                <dd class="col-sm-8">{{ article.published_at or 'Unknown' }}</dd>
+
+                                <dt class="col-sm-4">Extracted:</dt>
+                                <dd class="col-sm-8">{{ article.extracted_at }}</dd>
+
+                                <dt class="col-sm-4">Paywalled:</dt>
+                                <dd class="col-sm-8">
+                                    {% if article.is_paywalled %}
+                                        <span class="badge bg-warning">Yes</span>
+                                    {% else %}
+                                        <span class="badge bg-success">No</span>
+                                    {% endif %}
+                                </dd>
+                            </dl>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <strong>Original URL:</strong><br>
+                        <a href="{{ article.url }}" target="_blank" class="text-break">
+                            {{ article.url }}
+                            <i class="bi bi-box-arrow-up-right small"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <i class="bi bi-text-paragraph"></i> Article Content
+                        <span class="badge bg-secondary float-end">Markdown Format</span>
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="content-preview">
+                        <pre class="mb-0">{{ article.content }}</pre>
+                    </div>
+                </div>
+                <div class="card-footer text-muted small">
+                    <i class="bi bi-info-circle"></i>
+                    Content extracted using Firecrawl's mainContent mode.
+                    Scroll to read the full article.
+                </div>
+            </div>
+
+            {% if article.word_count < 200 %}
+            <div class="alert alert-warning mt-3">
+                <i class="bi bi-exclamation-triangle"></i>
+                <strong>Low word count detected.</strong>
+                This article may be incomplete or behind a paywall. The minimum recommended word count is 200 words.
+            </div>
+            {% endif %}
+            {% endif %}
+        {% else %}
+        <div class="text-center py-5">
+            <div class="spinner-border text-primary mb-3" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+            <p class="text-muted">Extracting article content... This may take a moment.</p>
+            <script>
+                // Auto-refresh after 3 seconds
+                setTimeout(function() {
+                    location.reload();
+                }, 3000);
+            </script>
+        </div>
+        {% endif %}
+
+        <div class="card bg-light mt-4">
+            <div class="card-body">
+                <h6 class="card-title">
+                    <i class="bi bi-graph-up"></i> Data Quality Notes
+                </h6>
+                <p class="mb-2">
+                    <strong>Extracted Information:</strong>
+                </p>
+                <ul class="mb-0">
+                    <li><strong>Title:</strong> Extracted from page metadata or content</li>
+                    <li><strong>Content:</strong> Main article text in markdown format</li>
+                    <li><strong>Metadata:</strong> Author, publish date, and word count</li>
+                    <li><strong>Paywall Detection:</strong> Heuristic-based (looks for subscription prompts)</li>
+                </ul>
+                <hr>
+                <p class="text-muted small mb-0">
+                    In future phases, this content will be scored for AI relevance and business impact,
+                    then summarized into concise headlines and bullet points.
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

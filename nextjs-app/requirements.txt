@@ -1,0 +1,5 @@
+# Firecrawl for web scraping
+firecrawl-py==1.5.0
+
+# HTTP client
+httpx==0.27.2
