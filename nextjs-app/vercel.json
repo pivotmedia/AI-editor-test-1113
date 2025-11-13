@@ -1,12 +1,7 @@
 {
-  "buildCommand": "npm run build",
-  "framework": "nextjs",
   "functions": {
     "api/**/*.py": {
       "runtime": "python3.9"
     }
-  },
-  "env": {
-    "FIRECRAWL_API_KEY": "@firecrawl_api_key"
   }
 }
