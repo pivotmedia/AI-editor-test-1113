@@ -1,0 +1,113 @@
+# News sources configuration for AI Editor
+# Each source includes the homepage URL and category
+
+sources:
+  # Top-Tier Business News
+  - name: "CNBC"
+    homepage_url: "https://www.cnbc.com"
+    category: "business"
+    enabled: true
+    priority: 1
+
+  - name: "Reuters"
+    homepage_url: "https://www.reuters.com"
+    category: "business"
+    enabled: true
+    priority: 1
+
+  - name: "AP News"
+    homepage_url: "https://apnews.com"
+    category: "general"
+    enabled: true
+    priority: 2
+
+  - name: "Bloomberg"
+    homepage_url: "https://www.bloomberg.com"
+    category: "business"
+    enabled: true
+    priority: 1
+    notes: "Some content may be paywalled"
+
+  - name: "Yahoo Finance"
+    homepage_url: "https://finance.yahoo.com"
+    category: "business"
+    enabled: true
+    priority: 2
+
+  - name: "Business Insider"
+    homepage_url: "https://www.businessinsider.com"
+    category: "business"
+    enabled: true
+    priority: 2
+    notes: "Some sections paywalled"
+
+  - name: "Forbes"
+    homepage_url: "https://www.forbes.com"
+    category: "business"
+    enabled: true
+    priority: 2
+    notes: "Ad-heavy but extractable"
+
+  # Tech/AI Focused
+  - name: "TechCrunch"
+    homepage_url: "https://techcrunch.com"
+    category: "tech"
+    enabled: true
+    priority: 1
+
+  - name: "The Verge"
+    homepage_url: "https://www.theverge.com"
+    category: "tech"
+    enabled: true
+    priority: 1
+
+  - name: "Wired"
+    homepage_url: "https://www.wired.com"
+    category: "tech"
+    enabled: true
+    priority: 1
+
+  - name: "Ars Technica"
+    homepage_url: "https://arstechnica.com"
+    category: "tech"
+    enabled: true
+    priority: 1
+
+  - name: "VentureBeat"
+    homepage_url: "https://venturebeat.com"
+    category: "tech"
+    enabled: true
+    priority: 1
+    notes: "Strong AI coverage"
+
+  - name: "Semafor"
+    homepage_url: "https://www.semafor.com"
+    category: "business"
+    enabled: true
+    priority: 2
+
+  - name: "Axios"
+    homepage_url: "https://www.axios.com"
+    category: "business"
+    enabled: true
+    priority: 2
+    notes: "Partial paywalls but summaries extractable"
+
+  # General News with Tech Sections
+  - name: "CNN Business"
+    homepage_url: "https://www.cnn.com/business"
+    category: "business"
+    enabled: true
+    priority: 2
+
+  - name: "ABC News Tech"
+    homepage_url: "https://abcnews.go.com/Technology"
+    category: "tech"
+    enabled: true
+    priority: 3
+
+  - name: "NBC News Tech"
+    homepage_url: "https://www.nbcnews.com/tech"
+    category: "tech"
+    enabled: true
+    priority: 3
